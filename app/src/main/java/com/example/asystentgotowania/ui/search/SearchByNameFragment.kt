@@ -16,21 +16,29 @@ import com.example.asystentgotowania.R
  * Wyszukiwanie z list po nazwie
  */
 class SearchByNameFragment(
-    private var searchList: ArrayList<String>,
     private var ingredient: MutableLiveData<String>,
     private var removedSelected: MutableLiveData<String>
 ) : Fragment() {
+
+    private lateinit var ingredients: ArrayList<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        //TODO Wstawic zapytanie z bazy wyszukujace skladniki
+        ingredients = ArrayList()
+        ingredients.add("saowd")
+        ingredients.add("pkamwd")
+        ingredients.add("koanwd")
+        //end
+
         val root = inflater.inflate(R.layout.fragment_search_by_name, container, false)
 
         val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
             root.context,
-            android.R.layout.simple_dropdown_item_1line, searchList
+            android.R.layout.simple_dropdown_item_1line, ingredients
         )
         val textView = root.findViewById<AutoCompleteTextView>(R.id.auto_complete)
         textView.threshold = 1
@@ -44,7 +52,7 @@ class SearchByNameFragment(
                 textView.setText("")
             }
 
-        removedSelected.observe(viewLifecycleOwner, {item ->
+        removedSelected.observe(viewLifecycleOwner, { item ->
             adapter.add(item)
         })
 
