@@ -52,7 +52,7 @@ class SearchFragment : Fragment() {
     private fun searchByName() {
         val recipeName = root.findViewById<EditText>(R.id.search_by_name).text.toString()
         //TODO zapytanie z bazy z przepisami zawierajacymi w nazwie "recipeName"
-        val recipeList = ArrayList<Any>()
+        val recipeList = arrayListOf<Any>("","","")
         startActivity(recipeList)
     }
 

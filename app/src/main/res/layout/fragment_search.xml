@@ -9,6 +9,7 @@
     tools:context=".ui.search.SearchFragment">
 
     <TextView
+        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Wyszukiwanie po składnikach"
@@ -62,6 +63,7 @@
     </LinearLayout>
 
     <TextView
+        android:textColor="@color/black"
         android:layout_marginTop="50sp"
         android:textSize="20sp"
         android:gravity="center"
