@@ -10,5 +10,6 @@ data class Recipe (
     var title: String,
     @ColumnInfo(name = "time") var time: String,
     @ColumnInfo(name = "level") var level: String,
-    @ColumnInfo(name = "size") var size: Int
+    @ColumnInfo(name = "size") var size: Int,
+    @ColumnInfo(name = "imageUrl") var imageUrl: String
 )

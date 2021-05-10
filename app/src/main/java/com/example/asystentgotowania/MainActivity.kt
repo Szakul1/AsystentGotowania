@@ -16,6 +16,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var dao: RecipeDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         
-        val dao = RecipeDatabase.getDatabase(this).recipeDao()
+        dao = RecipeDatabase.getDatabase(this).recipeDao()
 
         val recipes = listOf(
             Recipe("Schabowe", "0:45", "sredni", 4),
@@ -49,16 +51,29 @@ class MainActivity : AppCompatActivity() {
             IngredientWithAmount("czosnek", "Kurczak", "2 zabki"),
             IngredientWithAmount("ziemniak", "Kurczak", "300g"),
             IngredientWithAmount("burak", "Zupa jarzynowa", "4"),
-            IngredientWithAmount("kapusta", "Schabowe", "1 glowka")
+            IngredientWithAmount("kapusta", "Schabowe", "1 glowka"),
+            IngredientWithAmount("ziemniak", "Schabowe", "500g")
         )
 
         lifecycleScope.launch {
             recipes.forEach { dao.insertRecipe(it) }
             ingredients.forEach { dao.insertIngredient(it) }
             ingredientsWithAmounts.forEach { dao.insertIngredientWithAmount(it) }
+        }
+    }
 
-            val recipeWithIngredients = dao.getRecipeWithIngredients("Kurczak")
-            recipeWithIngredients[0].ingredients.forEach { Log.d("Mytag", it.name) }
+    fun searchByIngredients(ingredients: List<String>) {
+        var flag = true
+        var previousRecipes = mutableListOf<String>()
+        for (ingredient in ingredients) {
+            var recipeWithIngredients = dao.getRecipe("ziemniak")
+            var recipes = mutableListOf<String>()
+            recipeWithIngredients.forEach { recipes.add(it.title) }
+            if (!flag) {
+                previousRecipes.intersect(recipes)
+            } else {
+                flag = false
+            }
         }
     }
 }

@@ -1,10 +1,7 @@
 package com.example.asystentgotowania
 
 import androidx.room.*
-import com.example.asystentgotowania.db.Ingredient
-import com.example.asystentgotowania.db.IngredientWithAmount
-import com.example.asystentgotowania.db.Recipe
-import com.example.asystentgotowania.db.RecipeWithIngredients
+import com.example.asystentgotowania.db.*
 
 @Dao
 interface RecipeDao {
@@ -18,6 +15,18 @@ interface RecipeDao {
     suspend fun insertIngredient(ingredient: Ingredient)
 
     @Transaction
-    @Query("SELECT * FROM recipe WHERE title = :name")
-    suspend fun getRecipeWithIngredients(name: String): List<RecipeWithIngredients>
+    @Query("SELECT * FROM recipe WHERE title LIKE '%' || :name || '%'")
+    fun getRecipeWithIngredients(name: String): List<RecipeWithIngredients>
+    
+    @Transaction
+    @Query("SELECT * FROM ingredientwithamount WHERE name LIKE '%' || :name || '%'")
+    fun getRecipe(name: String): List<IngredientWithAmount>
+
+    @Query("SELECT * FROM recipe")
+    fun loadAllRecipes(): List<Recipe>
+
+    @Query("SELECT * FROM ingredient")
+    fun loadAllIngredients(): List<Ingredient>
+
+
 }
