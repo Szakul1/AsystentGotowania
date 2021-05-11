@@ -25,10 +25,9 @@ class RecipeListActivity : AppCompatActivity() {
 
         val snapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerView)
-        recyclerView.isNestedScrollingEnabled = false
 
         recyclerView.layoutManager = linearLayoutManager
         val recipeList = intent.getSerializableExtra("recipeList")
-        recyclerView.adapter = CustomAdapter(recipeList as ArrayList<Any>)
+        recyclerView.adapter = CustomAdapter(recipeList as ArrayList<String>)
     }
 }

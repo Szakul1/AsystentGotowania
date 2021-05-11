@@ -52,25 +52,25 @@ class SearchFragment : Fragment() {
     private fun searchByName() {
         val recipeName = root.findViewById<EditText>(R.id.search_by_name).text.toString()
         //TODO zapytanie z bazy z przepisami zawierajacymi w nazwie "recipeName"
-        val recipeList = arrayListOf<Any>("","","")
+        val recipeList = arrayListOf<String>("","","")
         startActivity(recipeList)
     }
 
     private fun whatWantToEat() {
         //TODO zapytanie z bazy z przepisami "selected" zawiera się w jego skladnikach
         // stworzyc recyclerview z wynikow
-        val recipeList = ArrayList<Any>()
+        val recipeList = ArrayList<String>()
         startActivity(recipeList)
     }
 
     private fun whatCanDo() {
         //TODO zapytanie z bazy z przepisami zawierajacymi skladniki w "selected"
         // stworzyc recyclerview z wynikow
-        val recipeList = ArrayList<Any>()
+        val recipeList = ArrayList<String>()
         startActivity(recipeList)
     }
 
-    private fun startActivity(recipeList: ArrayList<Any>) {
+    private fun startActivity(recipeList: ArrayList<String>) {
         val intent = Intent(context, RecipeListActivity::class.java)
         intent.putExtra("recipeList", recipeList)
         startActivity(intent)
