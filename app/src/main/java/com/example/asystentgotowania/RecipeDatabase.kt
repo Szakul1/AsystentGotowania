@@ -7,31 +7,33 @@ import androidx.room.RoomDatabase
 import com.example.asystentgotowania.db.Ingredient
 import com.example.asystentgotowania.db.IngredientWithAmount
 import com.example.asystentgotowania.db.Recipe
-import com.example.asystentgotowania.db.RecipeWithIngredients
 
-@Database(entities = [
-    Recipe::class,
-    Ingredient::class,
-    IngredientWithAmount::class
-    ], version=1, exportSchema=false)
-abstract class RecipeDatabase: RoomDatabase() {
+@Database(
+    entities = [
+        Recipe::class,
+        Ingredient::class,
+        IngredientWithAmount::class
+    ], version = 2, exportSchema = false
+)
+abstract class RecipeDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDao
 
-    companion object{
+    companion object {
         @Volatile
         private var INSTANCE: RecipeDatabase? = null
 
-        fun getDatabase(context: Context): RecipeDatabase{
+        fun getDatabase(context: Context): RecipeDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
             }
-            synchronized(this){
+            synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     RecipeDatabase::class.java,
-                    "recipe_database"
-                ).build()
+                    "recipe_database.db"
+                ).createFromAsset("databases/recipe_database.db")
+                    .build()
                 INSTANCE = instance
                 return instance
             }

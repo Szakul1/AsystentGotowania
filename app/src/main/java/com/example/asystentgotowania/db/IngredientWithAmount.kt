@@ -10,8 +10,8 @@ import androidx.room.PrimaryKey
                             childColumns = arrayOf("name"),
                             onDelete = ForeignKey.CASCADE)))
 data class IngredientWithAmount(
-    @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "title") var title: String,
+    @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "amount") var amount: String,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
