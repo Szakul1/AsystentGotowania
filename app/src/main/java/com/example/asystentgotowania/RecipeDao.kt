@@ -19,6 +19,13 @@ abstract class RecipeDao {
     abstract fun getRecipeWithIngredients(name: String): List<RecipeWithIngredients>
 
     @Transaction
+    @Query("SELECT * FROM ingredientwithamount WHERE title = :name")
+    abstract fun getRecipeByName(name: String): List<IngredientWithAmount>
+
+    @Query("SELECT * FROM recipe WHERE title LIKE '%' || :name || '%'")
+    abstract fun getRecipeInclusive(name: String): List<Recipe>
+
+    @Transaction
     @Query("SELECT * FROM ingredientwithamount WHERE name LIKE '%' || :name || '%'")
     abstract fun getRecipeByIngredient(name: String): List<IngredientWithAmount>
 

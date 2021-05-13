@@ -33,6 +33,7 @@ abstract class RecipeDatabase : RoomDatabase() {
                     RecipeDatabase::class.java,
                     "recipe_database.db"
                 ).createFromAsset("databases/recipe_database.db")
+                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 return instance

@@ -1,10 +1,14 @@
 package com.example.asystentgotowania.ui.search
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.asystentgotowania.R
+import com.example.asystentgotowania.RecipeDatabase
+import com.example.asystentgotowania.db.IngredientWithAmount
+import com.example.asystentgotowania.db.RecipeWithIngredients
 
 class RecipeDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,21 +16,27 @@ class RecipeDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_recipe_detail)
 
         supportActionBar?.hide()
-        //TODO parse recipe from intent
-        findViewById<TextView>(R.id.name)
-        findViewById<TextView>(R.id.time)
-        findViewById<TextView>(R.id.size)
-        findViewById<TextView>(R.id.level)
-        var e = findViewById<ImageView>(R.id.recipe_image)
 
-        findViewById<TextView>(R.id.ingredients).text = createIngredients(arrayListOf())
-        findViewById<TextView>(R.id.recipe)
+        val dao = RecipeDatabase.getDatabase(this).recipeDao()
+        val recipe = dao.getRecipe(intent.getStringExtra("recipeName")!!)
+
+        findViewById<TextView>(R.id.name).text = recipe.title
+        findViewById<TextView>(R.id.time).text = recipe.time
+        findViewById<TextView>(R.id.size).text = recipe.size.toString()
+        findViewById<TextView>(R.id.level).text = recipe.level
+        val stream = assets.open(recipe.recipe)
+        val bitMap = BitmapFactory.decodeStream(stream)
+        findViewById<ImageView>(R.id.recipe_image).setImageBitmap(bitMap)
+
+        val ingredients = dao.getRecipeByName(recipe.title)
+        findViewById<TextView>(R.id.ingredients).text = createIngredients(ingredients)
+        findViewById<TextView>(R.id.recipe).text = recipe.imageUrl.replace("KROK", "\nKROK")
     }
 
-    private fun createIngredients(list: ArrayList<String>): String {
+    private fun createIngredients(ingredients: List<IngredientWithAmount>): String {
         var stringList = ""
-        for (i in list) {
-            stringList += "•   $list\n"
+        for (i in ingredients) {
+            stringList += "•   ${i.name} -- ${i.amount}\n"
         }
         return stringList
     }

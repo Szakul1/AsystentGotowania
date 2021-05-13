@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.asystentgotowania.R
+import com.example.asystentgotowania.RecipeDatabase
 import www.sanju.zoomrecyclerlayout.ZoomRecyclerLayout
 
 /**
@@ -19,6 +20,14 @@ class RecipeListActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        val dao = RecipeDatabase.getDatabase(this).recipeDao()
+        // parsowanie intent
+        val recipeList = when (intent.getIntExtra("searchType", 0)) {
+            0 -> dao.getRecipeInclusive(intent.getStringExtra("recipeName")!!)
+            1 -> dao.searchExclusiveByIngredients(intent.getStringArrayListExtra("ingredients")!!)
+            else -> dao.searchInclusiveByIngredients(intent.getStringArrayListExtra("ingredients")!!)
+        }
+
         val linearLayoutManager = ZoomRecyclerLayout(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_list)
@@ -27,7 +36,6 @@ class RecipeListActivity : AppCompatActivity() {
         snapHelper.attachToRecyclerView(recyclerView)
 
         recyclerView.layoutManager = linearLayoutManager
-        val recipeList = intent.getSerializableExtra("recipeList")
-        recyclerView.adapter = CustomAdapter(recipeList as ArrayList<String>)
+        recyclerView.adapter = CustomAdapter(this, recipeList)
     }
 }

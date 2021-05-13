@@ -1,6 +1,9 @@
 package com.example.asystentgotowania.ui.search
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +11,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.asystentgotowania.R
+import com.example.asystentgotowania.db.Recipe
 
-class CustomAdapter(private val dataSet: ArrayList<String>) :
+class CustomAdapter(private val context: Context, private val dataSet: List<Recipe>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     class ViewHolder(view: View, adapter: CustomAdapter) : RecyclerView.ViewHolder(view) {
@@ -22,7 +26,7 @@ class CustomAdapter(private val dataSet: ArrayList<String>) :
         init {
             view.setOnClickListener {
                 val intent = Intent(view.context, RecipeDetailActivity::class.java)
-                intent.putExtra("recipe", adapter.dataSet[adapterPosition])
+                intent.putExtra("recipeName", adapter.dataSet[adapterPosition].title)
                 view.context.startActivity(intent)
             }
         }
@@ -36,7 +40,13 @@ class CustomAdapter(private val dataSet: ArrayList<String>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        //TODO
+        viewHolder.name.text = dataSet[position].title
+        viewHolder.time.text = dataSet[position].time
+        viewHolder.size.text = dataSet[position].size.toString()
+        viewHolder.level.text = dataSet[position].level
+        val stream = context.assets.open(dataSet[position].recipe)
+        val bitMap = BitmapFactory.decodeStream(stream)
+        viewHolder.image.setImageBitmap(bitMap)
     }
 
     override fun getItemCount() = dataSet.size

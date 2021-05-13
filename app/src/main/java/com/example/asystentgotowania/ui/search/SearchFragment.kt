@@ -12,6 +12,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.asystentgotowania.R
+import com.example.asystentgotowania.RecipeDao
+import com.example.asystentgotowania.RecipeDatabase
+import com.example.asystentgotowania.db.Recipe
 import com.google.android.flexbox.FlexboxLayout
 
 /**
@@ -23,6 +26,7 @@ class SearchFragment : Fragment() {
     private lateinit var group: FlexboxLayout
     private var selected = ArrayList<String>()
     private var removeSelected = MutableLiveData<String>()
+    private lateinit var dao: RecipeDao
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +34,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         root = inflater.inflate(R.layout.fragment_search, container, false)
+        dao = RecipeDatabase.getDatabase(requireContext()).recipeDao()
         group = root.findViewById(R.id.ingredients_group)
 
         val ingredient = MutableLiveData<String>()
@@ -50,29 +55,24 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchByName() {
+        val intent = Intent(context, RecipeListActivity::class.java)
         val recipeName = root.findViewById<EditText>(R.id.search_by_name).text.toString()
-        //TODO zapytanie z bazy z przepisami zawierajacymi w nazwie "recipeName"
-        val recipeList = arrayListOf<String>("","","")
-        startActivity(recipeList)
+        intent.putExtra("recipeName", recipeName)
+        intent.putExtra("searchType", 0)
+        startActivity(intent)
     }
 
     private fun whatWantToEat() {
-        //TODO zapytanie z bazy z przepisami "selected" zawiera się w jego skladnikach
-        // stworzyc recyclerview z wynikow
-        val recipeList = ArrayList<String>()
-        startActivity(recipeList)
+        val intent = Intent(context, RecipeListActivity::class.java)
+        intent.putExtra("ingredients", selected)
+        intent.putExtra("searchType", 1)
+        startActivity(intent)
     }
 
     private fun whatCanDo() {
-        //TODO zapytanie z bazy z przepisami zawierajacymi skladniki w "selected"
-        // stworzyc recyclerview z wynikow
-        val recipeList = ArrayList<String>()
-        startActivity(recipeList)
-    }
-
-    private fun startActivity(recipeList: ArrayList<String>) {
         val intent = Intent(context, RecipeListActivity::class.java)
-        intent.putExtra("recipeList", recipeList)
+        intent.putExtra("ingredients", selected)
+        intent.putExtra("searchType", 2)
         startActivity(intent)
     }
 
