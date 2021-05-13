@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AsystentGotowania">
+        <activity android:name=".ui.search.RecipeDetailActivity"></activity>
+        <activity android:name=".ui.search.RecipeListActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
