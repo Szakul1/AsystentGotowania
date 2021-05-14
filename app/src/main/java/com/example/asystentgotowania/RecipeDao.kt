@@ -41,6 +41,9 @@ abstract class RecipeDao {
     @Query("SELECT * FROM recipe")
     abstract fun getAllRecipeWithIngredients(): List<RecipeWithIngredients>
 
+    @Query("SELECT * FROM recipe WHERE favorite = 1")
+    abstract fun getAllFavoriteRecipes(): List<Recipe>
+
     @Query("UPDATE recipe SET favorite = :value WHERE title = :title")
     abstract fun setFavoriteOnRecipeByTitle(value: Boolean, title: String)
 
