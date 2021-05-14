@@ -41,6 +41,9 @@ abstract class RecipeDao {
     @Query("SELECT * FROM recipe")
     abstract fun getAllRecipeWithIngredients(): List<RecipeWithIngredients>
 
+    @Query("UPDATE recipe SET favorite = :value WHERE title = :title")
+    abstract fun setFavoriteOnRecipeByTitle(value: Boolean, title: String)
+
     fun searchByIngredients(ingredients: List<String>): MutableList<Recipe> {
         var flag = true
         var previousRecipes = mutableListOf<Recipe>()
