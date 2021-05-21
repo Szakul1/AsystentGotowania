@@ -24,8 +24,8 @@ class RecipeListActivity : AppCompatActivity() {
         // parsowanie intent
         val recipeList = when (intent.getIntExtra("searchType", 0)) {
             0 -> dao.getRecipeInclusive(intent.getStringExtra("recipeName")!!)
-            1 -> dao.searchExclusiveByIngredients(intent.getStringArrayListExtra("ingredients")!!)
-            else -> dao.searchInclusiveByIngredients(intent.getStringArrayListExtra("ingredients")!!)
+            1 -> dao.searchInclusiveByIngredients(intent.getStringArrayListExtra("ingredients")!!)
+            else -> dao.searchExclusiveByIngredients(intent.getStringArrayListExtra("ingredients")!!)
         }
 
         val linearLayoutManager = ZoomRecyclerLayout(this)

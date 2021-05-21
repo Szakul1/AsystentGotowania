@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -27,6 +28,7 @@ class SearchFragment : Fragment() {
     private var selected = ArrayList<String>()
     private var removeSelected = MutableLiveData<String>()
     private lateinit var dao: RecipeDao
+    private val viewModel: IngredientsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +45,9 @@ class SearchFragment : Fragment() {
             addButton(item)
         })
 
-        val ingredientsSearch = SearchByNameFragment(ingredient, removeSelected)
+        viewModel.ingredient = ingredient
+        viewModel.removedSelected = removeSelected
+        val ingredientsSearch = SearchByNameFragment()
         val ft = childFragmentManager.beginTransaction()
         ft.add(R.id.search_ingredients, ingredientsSearch)
         ft.commit()
