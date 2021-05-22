@@ -29,13 +29,13 @@ class RecipeDetailActivity : AppCompatActivity() {
         } else {
             checkBox.setButtonDrawable(android.R.drawable.star_big_on)
         }
-        val stream = assets.open(recipe.recipe)
+        val stream = assets.open(recipe.imageUrl)
         val bitMap = BitmapFactory.decodeStream(stream)
         findViewById<ImageView>(R.id.recipe_image).setImageBitmap(bitMap)
 
         val ingredients = dao.getRecipeByName(recipe.title)
         findViewById<TextView>(R.id.ingredients).text = createIngredients(ingredients)
-        findViewById<TextView>(R.id.recipe).text = recipe.imageUrl.replace("KROK", "\nKROK")
+        findViewById<TextView>(R.id.recipe).text = recipe.recipe.replace("KROK", "\nKROK")
 
         checkBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

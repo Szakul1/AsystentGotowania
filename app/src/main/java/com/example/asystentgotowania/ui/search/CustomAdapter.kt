@@ -44,7 +44,7 @@ class CustomAdapter(private val context: Context, private val dataSet: List<Reci
         viewHolder.time.text = dataSet[position].time
         viewHolder.size.text = dataSet[position].size.toString()
         viewHolder.level.text = dataSet[position].level
-        val stream = context.assets.open(dataSet[position].recipe)
+        val stream = context.assets.open(dataSet[position].imageUrl)
         val bitMap = BitmapFactory.decodeStream(stream)
         viewHolder.image.setImageBitmap(bitMap)
     }

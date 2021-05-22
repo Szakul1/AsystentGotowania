@@ -11,7 +11,7 @@ data class Recipe (
     @ColumnInfo(name = "time") var time: String,
     @ColumnInfo(name = "level") var level: String,
     @ColumnInfo(name = "size") var size: Int,
-    @ColumnInfo(name = "imageUrl") var imageUrl: String,
     @ColumnInfo(name = "recipe") var recipe: String,
+    @ColumnInfo(name = "imageUrl") var imageUrl: String,
     @ColumnInfo(name = "favorite") var favorite: Boolean = false
 )
