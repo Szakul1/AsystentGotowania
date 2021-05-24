@@ -40,6 +40,7 @@ class RecipeDetailActivity : AppCompatActivity() {
                 dao.setFavoriteOnRecipeByTitle(isChecked, recipe.title)
             }
         }
+
         val stream = assets.open(recipe.imageUrl)
         val bitMap = BitmapFactory.decodeStream(stream)
         findViewById<ImageView>(R.id.recipe_image).setImageBitmap(bitMap)
@@ -106,15 +107,7 @@ class RecipeDetailActivity : AppCompatActivity() {
         timePicker.hour = 0
         timePicker.minute = 0
         endTime = 0
-        findViewById<TextView>(R.id.recipe).text = recipe.recipe.replace("KROK", "\nKROK")
 
-        checkBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                dao.setFavoriteOnRecipeByTitle(isChecked, recipe.title)
-            } else {
-                dao.setFavoriteOnRecipeByTitle(isChecked, recipe.title)
-            }
-        }
     }
 
     private fun createIngredients(ingredients: List<IngredientWithAmount>): String {
