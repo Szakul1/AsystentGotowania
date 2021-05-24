@@ -25,12 +25,8 @@ class RecipeDetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.size).text = recipe.size.toString()
         findViewById<TextView>(R.id.level).text = recipe.level
         val checkBox = findViewById<CheckBox>(R.id.checkBox)
-        Log.d("Mytag", recipe.favorite.toString())
-        if (!recipe.favorite) {
-            checkBox.setButtonDrawable(android.R.drawable.star_big_off)
-        } else {
-            checkBox.setButtonDrawable(android.R.drawable.star_big_on)
-        }
+        if (recipe.favorite)
+            checkBox.isChecked = true
         val stream = assets.open(recipe.imageUrl)
         val bitMap = BitmapFactory.decodeStream(stream)
         findViewById<ImageView>(R.id.recipe_image).setImageBitmap(bitMap)
@@ -41,10 +37,8 @@ class RecipeDetailActivity : AppCompatActivity() {
 
         checkBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                checkBox.setButtonDrawable(android.R.drawable.star_big_on)
                 dao.setFavoriteOnRecipeByTitle(isChecked, recipe.title)
             } else {
-                checkBox.setButtonDrawable(android.R.drawable.star_big_off)
                 dao.setFavoriteOnRecipeByTitle(isChecked, recipe.title)
             }
         }
