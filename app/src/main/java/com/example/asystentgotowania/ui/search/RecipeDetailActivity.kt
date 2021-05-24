@@ -2,6 +2,7 @@ package com.example.asystentgotowania.ui.search
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.asystentgotowania.R
@@ -24,6 +25,7 @@ class RecipeDetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.size).text = recipe.size.toString()
         findViewById<TextView>(R.id.level).text = recipe.level
         val checkBox = findViewById<CheckBox>(R.id.checkBox)
+        Log.d("Mytag", recipe.favorite.toString())
         if (!recipe.favorite) {
             checkBox.setButtonDrawable(android.R.drawable.star_big_off)
         } else {
