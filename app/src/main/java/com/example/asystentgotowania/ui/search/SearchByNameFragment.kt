@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import com.example.asystentgotowania.R
 import com.example.asystentgotowania.RecipeDatabase
@@ -16,12 +17,10 @@ import com.example.asystentgotowania.RecipeDatabase
 /**
  * Wyszukiwanie z list po nazwie
  */
-class SearchByNameFragment(
-    private var ingredient: MutableLiveData<String>,
-    private var removedSelected: MutableLiveData<String>
-) : Fragment() {
+class SearchByNameFragment: Fragment() {
 
     private lateinit var ingredients: List<String>
+    private val viewModel: IngredientsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,12 +43,12 @@ class SearchByNameFragment(
         textView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 val name = parent.getItemAtPosition(position).toString()
-                ingredient.value = name
+                viewModel.ingredient.value = name
                 adapter.remove(name)
                 textView.setText("")
             }
 
-        removedSelected.observe(viewLifecycleOwner, { item ->
+        viewModel.removedSelected.observe(viewLifecycleOwner, { item ->
             adapter.add(item)
         })
 
