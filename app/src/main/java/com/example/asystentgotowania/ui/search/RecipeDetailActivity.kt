@@ -2,13 +2,20 @@ package com.example.asystentgotowania.ui.search
 
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
-import android.os.*
+import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.asystentgotowania.R
 import com.example.asystentgotowania.RecipeDatabase
 import com.example.asystentgotowania.db.IngredientWithAmount
+import com.example.asystentgotowania.ui.profile.ProfileFragment
 
 class RecipeDetailActivity : AppCompatActivity() {
 
@@ -47,7 +54,7 @@ class RecipeDetailActivity : AppCompatActivity() {
 
         val ingredients = dao.getRecipeByName(recipe.title)
         findViewById<TextView>(R.id.ingredients).text = createIngredients(ingredients)
-        findViewById<TextView>(R.id.recipe).text = recipe.imageUrl.replace("KROK", "\nKROK")
+        findViewById<TextView>(R.id.recipe).text = recipe.recipe.replace("KROK", "\nKROK")
         button = findViewById(R.id.start)
 
         timePicker = findViewById(R.id.timepicker)
@@ -90,7 +97,7 @@ class RecipeDetailActivity : AppCompatActivity() {
                 val not = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
                 val ring = RingtoneManager.getRingtone(applicationContext, not)
                 ring.play()
-                Handler(Looper.getMainLooper()).postDelayed( {
+                Handler(Looper.getMainLooper()).postDelayed({
                     ring.stop()
                 }, 5 * 1000)
                 Toast.makeText(con, "Koniec", Toast.LENGTH_SHORT).show()
@@ -138,5 +145,7 @@ class RecipeDetailActivity : AppCompatActivity() {
         if (endTime > 0)
             startTimer(endTime - System.currentTimeMillis())
     }
+
+
 
 }

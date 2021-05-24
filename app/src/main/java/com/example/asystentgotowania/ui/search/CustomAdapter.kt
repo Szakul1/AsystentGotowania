@@ -11,9 +11,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.asystentgotowania.R
+import com.example.asystentgotowania.RecipeDatabase
 import com.example.asystentgotowania.db.Recipe
 
-class CustomAdapter(private val context: Context, private val dataSet: List<Recipe>) :
+class CustomAdapter(private val context: Context, private var dataSet: List<Recipe>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     class ViewHolder(view: View, adapter: CustomAdapter) : RecyclerView.ViewHolder(view) {
@@ -40,7 +41,12 @@ class CustomAdapter(private val context: Context, private val dataSet: List<Reci
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.name.text = dataSet[position].title
+        val name = if (dataSet[position].title.length > 40) {
+            "${dataSet[position].title.subSequence(0, 40)}..."
+        } else {
+            dataSet[position].title
+        }
+        viewHolder.name.text = name
         viewHolder.time.text = dataSet[position].time
         viewHolder.size.text = dataSet[position].size.toString()
         viewHolder.level.text = dataSet[position].level
@@ -50,5 +56,12 @@ class CustomAdapter(private val context: Context, private val dataSet: List<Reci
     }
 
     override fun getItemCount() = dataSet.size
+
+    fun loadFromDatabase() {
+        val dao = RecipeDatabase.getDatabase(context).recipeDao()
+        dataSet = dao.getAllFavoriteRecipes()
+        notifyDataSetChanged()
+    }
+
 
 }

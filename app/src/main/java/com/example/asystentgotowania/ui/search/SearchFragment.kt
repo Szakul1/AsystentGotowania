@@ -39,6 +39,13 @@ class SearchFragment : Fragment() {
         dao = RecipeDatabase.getDatabase(requireContext()).recipeDao()
         group = root.findViewById(R.id.ingredients_group)
 
+        if (savedInstanceState != null) {
+            selected = savedInstanceState.getSerializable("list") as ArrayList<String>
+            for (item in selected) {
+                addButton(item)
+            }
+        }
+
         val ingredient = MutableLiveData<String>()
         ingredient.observe(viewLifecycleOwner, Observer { item ->
             selected.add(item)
@@ -97,6 +104,11 @@ class SearchFragment : Fragment() {
             }
         }
         group.addView(button)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("list", selected)
     }
 
 }
