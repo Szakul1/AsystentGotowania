@@ -1,5 +1,5 @@
 # PL AsystentGotowania
-Aplikacja pozwalająca na wyszukiwanie przepisów na podstawie listy posiadanych
+Aplikacja mobilna pozwalająca na wyszukiwanie przepisów na podstawie listy posiadanych
 produktów.
 
 ## Funkcjonalność
@@ -10,7 +10,7 @@ zawierających wszystkie produkty lub niektóre
 * zapisywanie przepisów do ulubionych
 
 # EN CookingAssistant
-Application for searching recipes based on list of owned products.
+Mobile application for searching recipes based on list of owned products.
 
 ## Functionality
 * searching recipes based on chosen products from list, including all products or some of them
